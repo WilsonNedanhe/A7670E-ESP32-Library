@@ -1,0 +1,36 @@
+name: build
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  build-esp32:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install platformio
+      - name: Build library + demo (esp32dev)
+        run: pio run -e esp32dev
+      - name: Build every example
+        run: |
+          for dir in examples/*/; do
+            name=$(basename "$dir")
+            echo "=== $name ==="
+            pio ci "$dir"/*.ino --lib="lib/A7670E" --board=esp32dev
+          done
+
+  test-native:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+      - run: pip install platformio
+      - name: Run native unit tests
+        run: pio test -e native

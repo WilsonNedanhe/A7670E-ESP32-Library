@@ -1,0 +1,8 @@
+#pragma once
+
+#define A7670E_LIB_VERSION_MAJOR 0
+#define A7670E_LIB_VERSION_MINOR 2
+#define A7670E_LIB_VERSION_PATCH 0
+
+// "0.2.0"
+#define A7670E_LIB_VERSION "0.2.0"
